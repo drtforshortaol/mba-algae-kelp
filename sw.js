@@ -1,4 +1,4 @@
-const cacheName = "mba-algae-kelp-v27";
+const cacheName = "mba-algae-kelp-v28";
 const home = new URL("./", self.registration.scope).href;
 const assets = [
   {url: home, marker: 'id="photo-library"'},
