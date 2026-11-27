@@ -1,9 +1,10 @@
-const cacheName = "mba-algae-kelp-v10";
+const cacheName = "mba-algae-kelp-v11";
 const home = new URL("./", self.registration.scope).href;
 const assets = [
   {url: home, marker: 'id="photo-library"'},
   {url: new URL("identification-photos.js", home).href, marker: "globalThis.identificationPhotos"},
-  {url: new URL("identification-photos-2.js", home).href, marker: "globalThis.identificationPhotos"}
+  {url: new URL("identification-photos-2.js", home).href, marker: "globalThis.identificationPhotos"},
+  {url: new URL("identification-photos-3.js", home).href, marker: "globalThis.identificationPhotos"}
 ];
 
 self.addEventListener("install", event => {
