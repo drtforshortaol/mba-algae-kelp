@@ -52,6 +52,7 @@
 <script src="./identification-photos-3.js"></script>
 <script src="./identification-photos-4.js"></script>
 <script src="./identification-photos-5.js"></script>
+<script src="./identification-photos-6.js"></script>
 <script>
 const species = [
   ["Giant kelp", "Macrocystis pyrifera", "Brown", "Look for many small floats at the blade bases."],
@@ -101,17 +102,17 @@ for (const photo of newPhotos) {
   const heading = document.createElement("h4");
   heading.textContent = photo.name;
   const image = document.createElement("img");
-  image.alt = "Reference photograph of " + photo.taxon;
+  image.alt = (photo.source ? "Specimen scan of " : "Reference photograph of ") + photo.taxon;
   image.loading = "lazy";
   image.decoding = "async";
   image.src = "data:image/jpeg;base64," + photo.image;
   const credit = document.createElement("small");
   const source = document.createElement("a");
-  source.href = "https://www.inaturalist.org/photos/" + photo.photo;
+  source.href = photo.source ?? ("https://www.inaturalist.org/photos/" + photo.photo);
   source.textContent = photo.credit;
   const license = document.createElement("a");
-  [license.textContent, license.href] = licenses[photo.license];
-  credit.append(source, " · ", license, " · resized");
+  [license.textContent, license.href] = photo.licenseUrl ? ["Image license", photo.licenseUrl] : licenses[photo.license];
+  credit.append(source, " · ", license, photo.source ? " · cropped and resized" : " · resized");
   card.append(heading, image);
   if (photo.cue) {
     const clue = document.createElement("p");
