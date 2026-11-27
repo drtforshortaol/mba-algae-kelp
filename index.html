@@ -47,6 +47,7 @@
 <details><summary>Seaweed life cycles</summary><p>In many seaweeds, a spore-producing sporophyte (two chromosome sets) alternates with a gamete-producing gametophyte (one set). In kelp, the large form you see is the sporophyte. The gametophytes are microscopic.</p><p>Many red algae, including <i>Polysiphonia</i>, have a third stage. After fertilization, a carposporophyte develops on the female gametophyte and releases spores that grow into tetrasporophytes. Those produce spores that grow into new gametophytes.</p></details>
 <details><summary>Sources and further learning</summary><ul><li><a href="https://www.montereybayaquarium.org/animals-the-ocean/ecosystems/kelp-forest">Monterey Bay Aquarium · Kelp forest</a></li><li><a href="https://ocean.si.edu/kelp-and-kelp-forests">Smithsonian Ocean · Kelp and kelp forests</a></li><li><a href="https://marinescience.ucdavis.edu/news/seagrasses-turn-back-clock-ocean-acidification">UC Davis · Seagrass and local pH</a></li><li><a href="https://www.opc.ca.gov/webmaster/ftp/pdf/agenda_items/20210216/NA/Item7_KelpActionPlan_ExhibitA_FINAL.pdf">California Ocean Protection Council · Kelp action plan</a></li></ul></details></details></section>
 </main>
+<script src="./identification-photos.js"></script>
 <script>
 const species = [
   ["Giant kelp", "Macrocystis pyrifera", "Brown", "Look for many small floats at the blade bases."],
@@ -82,10 +83,37 @@ for (const entry of additions) {
   if (position >= 0) species[position] = entry;
   else species.push(entry);
 }
+const newPhotos = globalThis.identificationPhotos ?? [];
+const licenses = {
+  cc0: ["CC0", "https://creativecommons.org/publicdomain/zero/1.0/"],
+  "cc-by": ["CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/"],
+  "cc-by-sa": ["CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/"]
+};
+for (const photo of newPhotos) {
+  const entry = species.find(([name]) => name === photo.name);
+  if (!entry) continue;
+  entry[1] = photo.taxon;
+  const card = document.createElement("article");
+  const heading = document.createElement("h4");
+  heading.textContent = photo.name;
+  const image = document.createElement("img");
+  image.alt = "Reference photograph of " + photo.taxon;
+  image.loading = "lazy";
+  image.decoding = "async";
+  image.src = "data:image/jpeg;base64," + photo.image;
+  const credit = document.createElement("small");
+  const source = document.createElement("a");
+  source.href = "https://www.inaturalist.org/photos/" + photo.photo;
+  source.textContent = photo.credit;
+  const license = document.createElement("a");
+  [license.textContent, license.href] = licenses[photo.license];
+  credit.append(source, " · ", license, " · resized");
+  card.append(heading, image, credit);
+  photoCards.set(photo.name, card);
+}
 function photoFor(name, scientific) {
   // The Ulva photo is labelled to species on its source page.
   if (name === "Sea lettuce" && scientific !== "Ulva lactuca") return;
-  if (scientific === "Calliarthron cheilosporioides") return;
   return photoCards.get(name);
 }
 function render() {
@@ -139,7 +167,7 @@ function render() {
 }
 query.addEventListener("input", render);
 photoFilter.addEventListener("change", render);
-document.querySelector("#comparison").replaceChildren(...[...photoCards.values()].map(card => card.cloneNode(true)));
+document.querySelector("#comparison").replaceChildren(...[...document.querySelector("#photo-library").content.children].map(card => card.cloneNode(true)));
 render();
 const navigation = document.querySelector(".field-nav");
 const standalone = new URLSearchParams(location.search).get("standalone") === "1";
