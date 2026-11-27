@@ -1,10 +1,10 @@
-const cacheName = "mba-algae-kelp-v2";
+const cacheName = "mba-algae-kelp-v3";
 const home = new URL("./", self.registration.scope).href;
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
     const response = await fetch(home, {cache: "reload"});
-    if (!response.ok || response.redirected || !(await response.clone().text()).includes('id="learn"')) {
+    if (!response.ok || response.redirected || !(await response.clone().text()).includes('id="photo-library"')) {
       throw new Error("The offline reference could not be downloaded.");
     }
     const cache = await caches.open(cacheName);
