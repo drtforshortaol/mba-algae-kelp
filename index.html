@@ -48,6 +48,7 @@
 <details><summary>Sources and further learning</summary><ul><li><a href="https://www.montereybayaquarium.org/animals-the-ocean/ecosystems/kelp-forest">Monterey Bay Aquarium · Kelp forest</a></li><li><a href="https://ocean.si.edu/kelp-and-kelp-forests">Smithsonian Ocean · Kelp and kelp forests</a></li><li><a href="https://marinescience.ucdavis.edu/news/seagrasses-turn-back-clock-ocean-acidification">UC Davis · Seagrass and local pH</a></li><li><a href="https://www.opc.ca.gov/webmaster/ftp/pdf/agenda_items/20210216/NA/Item7_KelpActionPlan_ExhibitA_FINAL.pdf">California Ocean Protection Council · Kelp action plan</a></li></ul></details></details></section>
 </main>
 <script src="./identification-photos.js"></script>
+<script src="./identification-photos-2.js"></script>
 <script>
 const species = [
   ["Giant kelp", "Macrocystis pyrifera", "Brown", "Look for many small floats at the blade bases."],
@@ -108,7 +109,13 @@ for (const photo of newPhotos) {
   const license = document.createElement("a");
   [license.textContent, license.href] = licenses[photo.license];
   credit.append(source, " · ", license, " · resized");
-  card.append(heading, image, credit);
+  card.append(heading, image);
+  if (photo.cue) {
+    const clue = document.createElement("p");
+    clue.textContent = photo.cue;
+    card.append(clue);
+  }
+  card.append(credit);
   photoCards.set(photo.name, card);
 }
 function photoFor(name, scientific) {
