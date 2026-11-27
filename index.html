@@ -51,6 +51,7 @@
 <script src="./identification-photos-2.js"></script>
 <script src="./identification-photos-3.js"></script>
 <script src="./identification-photos-4.js"></script>
+<script src="./identification-photos-5.js"></script>
 <script>
 const species = [
   ["Giant kelp", "Macrocystis pyrifera", "Brown", "Look for many small floats at the blade bases."],
@@ -93,9 +94,9 @@ const licenses = {
   "cc-by-sa": ["CC BY-SA 4.0", "https://creativecommons.org/licenses/by-sa/4.0/"]
 };
 for (const photo of newPhotos) {
-  const entry = species.find(([name]) => name === photo.name);
+  const entry = species.find(([name, scientific]) => name === photo.name && (!photo.directoryTaxon || !scientific || scientific === photo.directoryTaxon));
   if (!entry) continue;
-  entry[1] = photo.taxon;
+  entry[1] = photo.directoryTaxon ?? photo.taxon;
   const card = document.createElement("article");
   const heading = document.createElement("h4");
   heading.textContent = photo.name;
@@ -118,12 +119,12 @@ for (const photo of newPhotos) {
     card.append(clue);
   }
   card.append(credit);
-  photoCards.set(photo.name, card);
+  photoCards.set(photo.directoryTaxon ? photo.name + " (" + photo.directoryTaxon + ")" : photo.name, card);
 }
 function photoFor(name, scientific) {
   // The Ulva photo is labelled to species on its source page.
-  if (name === "Sea lettuce" && scientific !== "Ulva lactuca") return;
-  return photoCards.get(name);
+  return photoCards.get(name + " (" + scientific + ")") ??
+    (name === "Sea lettuce" && scientific !== "Ulva lactuca" ? undefined : photoCards.get(name));
 }
 function render() {
   const terms = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
