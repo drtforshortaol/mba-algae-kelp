@@ -1,4 +1,4 @@
-const cacheName = "mba-algae-kelp-v7";
+const cacheName = "mba-algae-kelp-v8";
 const home = new URL("./", self.registration.scope).href;
 
 self.addEventListener("install", event => {
