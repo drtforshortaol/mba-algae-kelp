@@ -1,0 +1,1 @@
+Seagrasses are marine flowering plants with true roots, stems, and leaves, and produce flowers and seeds. Seaweeds are macroalgae. [NOAA seagrass meadows](https://sanctuaries.noaa.gov/visit/ecosystems/seagrass.html) and [NOAA eelgrass reference](https://repository.library.noaa.gov/view/noaa/41974/noaa_41974_DS1.pdf).
